@@ -1,0 +1,22 @@
+.App {
+  width: 100vw;
+  height: 100vh;
+  padding: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
+
+  h1 {
+    font-size: 70px;
+  }
+
+  .container {
+    display: flex;
+    justify-content: center;
+    gap: 100px;
+    width: 100%;
+    padding: 50px;
+  }
+}

@@ -1,0 +1,20 @@
+.com-todos {
+  width: 25%;
+  border: 1px solid gainsboro;
+  h2 {
+    font-size: 30px;
+    width: 100%;
+    background-color: #b9e5cc;
+    padding: 10px;
+  }
+  .com-todo {
+    display: flex;
+    padding: 15px 20px;
+    justify-content: space-between;
+    width: 100%;
+    font-size: 20px;
+    i {
+      color: green;
+    }
+  }
+}

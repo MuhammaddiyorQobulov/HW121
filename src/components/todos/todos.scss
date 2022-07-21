@@ -1,0 +1,56 @@
+.todos {
+  width: 40vw;
+  border-collapse: collapse;
+  h2 {
+    background-color: #fdfdb3;
+    padding: 10px;
+    border: 1px solid gainsboro;
+  }
+  .todo {
+    padding: 5px 10px;
+    display: flex;
+    border: 1px solid gainsboro;
+    justify-content: space-between;
+    align-items: center;
+    p {
+      font-size: 18px;
+      width: 100%;
+      max-width: 70%;
+    }
+    .btn {
+      display: flex;
+      gap: 10px;
+      padding: 5px;
+      button {
+        width: 40px;
+        height: 40px;
+        padding: 5px;
+        cursor: pointer;
+      }
+      &-complete {
+        background-color: #c8fdc1;
+        border: 1px solid green;
+        border-radius: 50%;
+        font-size: 24px;
+        color: green;
+      }
+      &-del {
+        background-color: #f7c4cb;
+        border: 1px solid red;
+        border-radius: 50%;
+        font-size: 24px;
+        color: red;
+      }
+    }
+  }
+  .input-section {
+    border: 1px solid gainsboro;
+    padding: 10px;
+
+    input {
+      width: 80%;
+      height: 30px;
+      padding: 5px;
+    }
+  }
+}
