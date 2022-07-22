@@ -11,10 +11,9 @@ class Completed extends Component {
       { name: "What Can I Do For You" },
     ],
   };
-
   render() {
-    const comTodos = this.state.comTodos;
-    // this.state.comTodos.push(this.props.comTodo);
+    const { comTodos } = this.state;
+
     return (
       <div className="com-todos">
         <h2>Completed</h2>

@@ -12,6 +12,7 @@ class Todos extends Completed {
       { name: "Nothing" },
     ],
   };
+  arr = {};
 
   handleRemove = (delTodoIdx) => {
     const todos = this.state.todos.filter((todo, idx) => delTodoIdx !== idx);
@@ -23,15 +24,14 @@ class Todos extends Completed {
     if (event.key === "Enter" && event.target.value != "") {
       const todo = { name: event.target.value };
       todos.push(todo);
-      console.log(todos);
       event.target.value = "";
     }
     this.setState({ todos });
   };
 
-  completeTodo(todo, idx) {
-    <Completed comTodo={todo} />;
-    this.handleRemove(idx);
+  completeTodo(array, index) {
+
+    this.handleRemove(index);
   }
 
   render() {
