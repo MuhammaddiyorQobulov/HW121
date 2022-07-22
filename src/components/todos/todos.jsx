@@ -12,7 +12,6 @@ class Todos extends Completed {
       { name: "Nothing" },
     ],
   };
-  arr = {};
 
   handleRemove = (delTodoIdx) => {
     const todos = this.state.todos.filter((todo, idx) => delTodoIdx !== idx);
@@ -30,7 +29,6 @@ class Todos extends Completed {
   };
 
   completeTodo(array, index) {
-
     this.handleRemove(index);
   }
 
