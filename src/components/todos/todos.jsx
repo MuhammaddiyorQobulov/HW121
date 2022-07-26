@@ -1,71 +1,120 @@
 import React, { Component } from "react";
-import Completed from "../completed/completed";
+import Completed from "../completed/_completed";
 import "./todos.scss";
 
+const genID = () => Math.random().toString().substring(2, 8);
 class Todos extends Completed {
   state = {
     todos: [
-      { name: "I feel Good" },
-      { name: "Hello World" },
-      { name: "My name is Muhammaddiyor" },
-      { name: "GO HOME" },
-      { name: "Nothing" },
+      { id: genID(), title: "I feel Good", isDone: false, isEdit: false },
+      { id: genID(), title: "Hello World", isDone: false, isEdit: false },
+      { id: genID(), title: "My Cat", isDone: false, isEdit: false },
     ],
+    isEditStatus: false,
+    selectedIdx: null,
+    key: "first",
   };
 
-  handleRemove = (delTodoIdx) => {
-    const todos = this.state.todos.filter((todo, idx) => delTodoIdx !== idx);
+  handleDelete = (selectedTodo) => {
+    const todos = this.state.todos.filter((todo) => todo !== selectedTodo);
     this.setState({ todos });
   };
 
-  renderTodo = (event) => {
-    const todos = this.state.todos;
-    if (event.key === "Enter" && event.target.value != "") {
-      const todo = { name: event.target.value };
-      todos.push(todo);
-      event.target.value = "";
-    }
+  handleAddTodo = (title) => {
+    const todo = { title, id: genID(), isDone: false, isEdit: false };
+    const todos = [...this.state.todos, todo];
     this.setState({ todos });
   };
 
-  completeTodo(array, index) {
-    this.handleRemove(index);
+  handleDone(selectedTodo) {
+    const selectedIdx = this.state.todos.findIndex(
+      (todo) => todo === selectedTodo
+    );
+    const todos = [...this.state.todos];
+    todos[selectedIdx].isDone = true;
+    this.setState({ todos });
+  }
+
+  handleEdit(todo) {
+    const { todos } = this.state;
+    const selectedIdx = todos.findIndex((t) => t === todo);
+    todos[selectedIdx].isEdit = true; // update
+
+    this.setState({ todos, isEditStatus: true, selectedIdx });
+
+    document.getElementById("title_input").value = todo.title; // input value change
+  }
+
+  handleEditTodo(title) {
+    const { todos, selectedIdx } = this.state;
+
+    const todo = { ...todos[selectedIdx], title, isEdit: false }; // update todo
+    todos[selectedIdx] = todo;
+    this.setState({ todos, isEditStatus: false, currentIdx: null });
   }
 
   render() {
-    const { todos } = this.state;
+    const { todos, key } = this.state;
+    let notDoneTodos = [];
+    const doneTodos = todos.filter((todo) => {
+      if (todo.isDone) return true;
+      notDoneTodos.push(todo);
+    });
+
     return (
-      <div className="container">
-        <div className="todos">
-          <h2>Todo List</h2>
-          {todos.map((todo, idx) => (
-            <div key={todo.name} className="todo">
-              <p>{todo.name}</p>
-              <div className="btn">
-                <button
-                  className="btn-complete"
-                  onClick={() => this.completeTodo(todo, idx)}
-                >
-                  <i className="fa-solid fa-check"></i>
-                </button>
-                <button
-                  onClick={() => this.handleRemove(idx)}
-                  className="btn-del"
-                >
-                  <i className="fa-solid fa-xmark"></i>
-                </button>
+      <div>
+        <div className='container'>
+          <div className='todos'>
+            <h2>Todo List</h2>
+            {notDoneTodos.map((item) => (
+              <div key={item.id} className='todo'>
+                <p>{item.title}</p>
+                <div className='btn'>
+                  <button
+                    disabled={item.isEdit}
+                    className='btn-complete'
+                    onClick={() => this.handleEdit(item)}>
+                    <i className='fa-solid fa-highlighter' />
+                  </button>
+                  <button
+                    disabled={item.isEdit}
+                    className='btn-complete'
+                    onClick={() => this.handleDone(item)}>
+                    <i className='fa-solid fa-check' />
+                  </button>
+                  <button
+                    disabled={item.isEdit}
+                    className='btn-del'
+                    onClick={() => this.handleDelete(item)}>
+                    <i className='fa-solid fa-xmark' />
+                  </button>
+                </div>
               </div>
+            ))}
+            <div className='input-section'>
+              <input
+                id='title_input'
+                onKeyPress={(e) => {
+                  if (e.key === "Enter" && e.target.value.trim() !== "") {
+                    if (this.state.isEditStatus)
+                      this.handleEditTodo(e.target.value);
+                    else this.handleAddTodo(e.target.value);
+                    e.target.value = "";
+                  }
+                }}
+                placeholder='Add Todo ...'
+                type='text'
+              />
             </div>
-          ))}
-          <div className="input-section">
-            <input
-              onKeyPress={this.renderTodo}
-              placeholder="Add Todo ..."
-              type="text"
-            />
           </div>
+          <Completed todos={doneTodos} />
         </div>
-        <Completed />
+        <button
+          onClick={() =>
+            this.setState({ key: key === "first" ? "second" : "first" })
+          }>
+          toggle
+        </button>
       </div>
     );
   }
